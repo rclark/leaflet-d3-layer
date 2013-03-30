@@ -99,7 +99,14 @@ L.GeoJSON.d3 = L.GeoJSON.extend
 L.GeoJSON.d3.async = L.GeoJSON.d3.extend
   initialize: (geojsonUrl, options) ->
     @geojsonUrl = geojsonUrl  
-    @options = options or {}
+    options = options or {}
+    
+    # Give this layer a unique ID based on its url
+    options.layerId = options.layerId or geojsonUrl.replace /[^A-Za-z0-9]/g, "-"
+    
+    # Initialize via parent function
+    L.GeoJSON.d3.prototype.initialize.call @, null, options
+    
   getData: (map) ->    
     # Find the map's bounding box
     mapBounds = map.getBounds().toBBoxString()
@@ -112,7 +119,7 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
       L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map) if thisLayer._svg?
       
       # Use parent functions to do put points back on the map
-      L.GeoJSON.d3.prototype.initialize.call thisLayer, geojson, thisLayer.options
+      thisLayer.geojson = geojson
       L.GeoJSON.d3.prototype.onAdd.call thisLayer
       
   onAdd: (map) ->
@@ -122,6 +129,7 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
       L.GeoJSON.d3.async.prototype.getData.call thisLayer, e.target
    
     map.on "moveend", newData
+    
     # Then go ahead and getData for the first time
     @getData map
     

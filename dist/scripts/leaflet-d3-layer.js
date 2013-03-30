@@ -63,7 +63,9 @@
   L.GeoJSON.d3.async = L.GeoJSON.d3.extend({
     initialize: function(geojsonUrl, options) {
       this.geojsonUrl = geojsonUrl;
-      return this.options = options || {};
+      options = options || {};
+      options.layerId = options.layerId || geojsonUrl.replace(/[^A-Za-z0-9]/g, "-");
+      return L.GeoJSON.d3.prototype.initialize.call(this, null, options);
     },
     getData: function(map) {
       var mapBounds, thisLayer, url;
@@ -74,7 +76,7 @@
         if (thisLayer._svg != null) {
           L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map);
         }
-        L.GeoJSON.d3.prototype.initialize.call(thisLayer, geojson, thisLayer.options);
+        thisLayer.geojson = geojson;
         return L.GeoJSON.d3.prototype.onAdd.call(thisLayer);
       });
     },
