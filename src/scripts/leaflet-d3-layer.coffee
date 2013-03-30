@@ -54,10 +54,14 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     data = paths.data @geojson.features
     feature = data.enter().append "path"
     
+    # Put in an attribute that might be used for styling
+    if @options.styler?
+      styler = @options.styler
+      feature.attr "styler", (d) ->
+        return d.properties[styler]
+    
     # Function to define the appropriate size for the svg element
-    #   and plug data into the path elements
-    styler = @options.styler or null
-      
+    #   and plug data into the path elements      
     reset = () ->
       # Setup a buffer so you don't truncate any symbols
       bufferPixels = 15
@@ -74,8 +78,8 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       # Here is where we apparently "initialize the path data by setting the d attribute" (http://bost.ocks.org/mike/leaflet/)
       feature.attr "d", path
       
-    # Bind that reset function to a Leaflet map event (resize svg whenever the map is moved)
-    root.map.on "viewreset", reset
+    # Bind that reset function to a Leaflet map event (resize svg whenever the map is zoomed)
+    root.map.on "viewreset", reset    
     
     # Then call it to get things started
     reset() 
@@ -95,7 +99,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
 L.GeoJSON.d3.async = L.GeoJSON.d3.extend
   initialize: (geojsonUrl, options) ->
     @geojsonUrl = geojsonUrl  
-    
+    @options = options or {}
   getData: (map) ->    
     # Find the map's bounding box
     mapBounds = map.getBounds().toBBoxString()
@@ -116,12 +120,12 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
     thisLayer = @
     @newData = newData = (e) ->
       L.GeoJSON.d3.async.prototype.getData.call thisLayer, e.target
-    map.on "viewreset", newData
-    
+   
+    map.on "moveend", newData
     # Then go ahead and getData for the first time
     @getData map
     
   onRemove: (map) ->
     L.GeoJSON.d3.prototype.onRemove.call @, map
-    map.off "viewreset", @newData
+    map.off "moveend", @newData
     

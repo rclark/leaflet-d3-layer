@@ -4,12 +4,72 @@ html, body, #map {
 }
 
 @pathFillColor: #68A6E3;
-@highlightColor: #FAFA89;
+@highlightColor: red;
 
 path {
   fill: @pathFillColor;
   fill-opacity: 0.7;
-  stroke: darken(@pathFillColor, 40%);
+  stroke: darken(@pathFillColor, 40%);  
+  
+  /* Colors for Geochron Points */
+  &[styler="2387"] { fill: #E03A00; }
+  &[styler="2385"] { fill: #FEAFCF; }
+  &[styler="2383"] { fill: #FDC158; }
+  &[styler="2382"] { fill: #8284FE; }
+  &[styler="2381"] { fill: #CB9C69; }
+  &[styler="2380"] { fill: #276323; }
+  
+  /* Colors for Geologic Map */
+  &[styler="Q"] { fill: #F4F2E6; }
+  &[styler="QTb"] { fill: #F0D5F0; }
+  &[styler="QTv"] { fill: #E3C4F0; }
+  &[styler="Qr"] { fill: #FFFFBA; }
+  &[styler="Qy"] { fill: #FFFFE3; }
+  &[styler="Qm"] { fill: #FFFFBA; }
+  &[styler="Qo"] { fill: #FDFC9B; }
+  &[styler="QTs"] { fill: #FFE8BA; }
+  &[styler="Tvy"] { fill: #FFA8FF; }
+  &[styler="Tsy"] { fill: #FFE8C4; }
+  &[styler="Tby"] { fill: #FFBAE3; }
+  &[styler="Tb"] { fill: #FF9EE3; }
+  &[styler="Tsv"] { fill: #FBC47B; }
+  &[styler="Tsm"] { fill: #E2B854; }
+  &[styler="Tv"] { fill: #FDC158; }
+  &[styler="Tg"] { fill: #FBBA7B; }
+  &[styler="Ti"] { fill: #FD9E69; }
+  &[styler="TXgn"] { fill: #FB9AAA; }
+  &[styler="Tso"] { fill: #EED792; }
+  &[styler="TKgm"] { fill: #FF8791; }
+  &[styler="TKg"] { fill: #FD7765; }
+  &[styler="Kv"] { fill: #D1FF87; }
+  &[styler="KJo"] { fill: #BAFF9E; }
+  &[styler="KJs"] { fill: #BAFF9E; }
+  &[styler="Kmv"] { fill: #E8FFA8; }
+  &[styler="Ks"] { fill: #B3FB85; }
+  &[styler="Jm"] { fill: #78F077; }
+  &[styler="Jsv"] { fill: #7DFFB2; }
+  &[styler="Jg"] { fill: #E45FB0; }
+  &[styler="Jv"] { fill: #7DFFB2; }
+  &[styler="J^"] { fill: #B2FFF0; }
+  &[styler="}|"] { fill: #81FD80; }
+  &[styler="Js"] { fill: #79E29D; }
+  &[styler="Jgc"] { fill: #6DF1A8; }
+  &[styler="^c"] { fill: #7DFFD1; }
+  &[styler="^cs"] { fill: #7DFFD1; }
+  &[styler="^m"] { fill: #90DED4; }
+  &[styler="|"] { fill: #7BECFB; }
+  &[styler="P"] { fill: #A8F0FF; }
+  &[styler="P*"] { fill: #9ED9FF; }
+  &[styler="M_"] { fill: #C4D9F0; }
+  &[styler="Ys"] { fill: #BAB2FF; }
+  &[styler="Yd"] { fill: #D597D0; }
+  &[styler="YXg"] { fill: #D1A177; }
+  &[styler="Yg"] { fill: #CA8B4F; }
+  &[styler="Xg"] { fill: #BA827B; }
+  &[styler="Xms"] { fill: #B9C4B9; }
+  &[styler="Xq"] { fill: #92B35F; }
+  &[styler="Xmv"] { fill: #90B388; }
+  &[styler="Xm"] { fill: #B2B25F; }
   
   &:hover {
     fill: @highlightColor;
