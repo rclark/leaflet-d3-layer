@@ -1,0 +1,192 @@
+html,
+body,
+#map {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+}
+path {
+  fill: #68a6e3;
+  fill-opacity: 0.7;
+  stroke: #14406b;
+  /* Colors for Geochron Points */
+
+  /* Colors for Geologic Map */
+
+}
+path[styler="2387"] {
+  fill: #E03A00;
+}
+path[styler="2385"] {
+  fill: #FEAFCF;
+}
+path[styler="2383"] {
+  fill: #FDC158;
+}
+path[styler="2382"] {
+  fill: #8284FE;
+}
+path[styler="2381"] {
+  fill: #CB9C69;
+}
+path[styler="2380"] {
+  fill: #276323;
+}
+path[styler="Q"] {
+  fill: #F4F2E6;
+}
+path[styler="QTb"] {
+  fill: #F0D5F0;
+}
+path[styler="QTv"] {
+  fill: #E3C4F0;
+}
+path[styler="Qr"] {
+  fill: #FFFFBA;
+}
+path[styler="Qy"] {
+  fill: #FFFFE3;
+}
+path[styler="Qm"] {
+  fill: #FFFFBA;
+}
+path[styler="Qo"] {
+  fill: #FDFC9B;
+}
+path[styler="QTs"] {
+  fill: #FFE8BA;
+}
+path[styler="Tvy"] {
+  fill: #FFA8FF;
+}
+path[styler="Tsy"] {
+  fill: #FFE8C4;
+}
+path[styler="Tby"] {
+  fill: #FFBAE3;
+}
+path[styler="Tb"] {
+  fill: #FF9EE3;
+}
+path[styler="Tsv"] {
+  fill: #FBC47B;
+}
+path[styler="Tsm"] {
+  fill: #E2B854;
+}
+path[styler="Tv"] {
+  fill: #FDC158;
+}
+path[styler="Tg"] {
+  fill: #FBBA7B;
+}
+path[styler="Ti"] {
+  fill: #FD9E69;
+}
+path[styler="TXgn"] {
+  fill: #FB9AAA;
+}
+path[styler="Tso"] {
+  fill: #EED792;
+}
+path[styler="TKgm"] {
+  fill: #FF8791;
+}
+path[styler="TKg"] {
+  fill: #FD7765;
+}
+path[styler="Kv"] {
+  fill: #D1FF87;
+}
+path[styler="KJo"] {
+  fill: #BAFF9E;
+}
+path[styler="KJs"] {
+  fill: #BAFF9E;
+}
+path[styler="Kmv"] {
+  fill: #E8FFA8;
+}
+path[styler="Ks"] {
+  fill: #B3FB85;
+}
+path[styler="Jm"] {
+  fill: #78F077;
+}
+path[styler="Jsv"] {
+  fill: #7DFFB2;
+}
+path[styler="Jg"] {
+  fill: #E45FB0;
+}
+path[styler="Jv"] {
+  fill: #7DFFB2;
+}
+path[styler="J^"] {
+  fill: #B2FFF0;
+}
+path[styler="}|"] {
+  fill: #81FD80;
+}
+path[styler="Js"] {
+  fill: #79E29D;
+}
+path[styler="Jgc"] {
+  fill: #6DF1A8;
+}
+path[styler="^c"] {
+  fill: #7DFFD1;
+}
+path[styler="^cs"] {
+  fill: #7DFFD1;
+}
+path[styler="^m"] {
+  fill: #90DED4;
+}
+path[styler="|"] {
+  fill: #7BECFB;
+}
+path[styler="P"] {
+  fill: #A8F0FF;
+}
+path[styler="P*"] {
+  fill: #9ED9FF;
+}
+path[styler="M_"] {
+  fill: #C4D9F0;
+}
+path[styler="Ys"] {
+  fill: #BAB2FF;
+}
+path[styler="Yd"] {
+  fill: #D597D0;
+}
+path[styler="YXg"] {
+  fill: #D1A177;
+}
+path[styler="Yg"] {
+  fill: #CA8B4F;
+}
+path[styler="Xg"] {
+  fill: #BA827B;
+}
+path[styler="Xms"] {
+  fill: #B9C4B9;
+}
+path[styler="Xq"] {
+  fill: #92B35F;
+}
+path[styler="Xmv"] {
+  fill: #90B388;
+}
+path[styler="Xm"] {
+  fill: #B2B25F;
+}
+path:hover {
+  fill: #ff0000;
+  stroke: black;
+  cursor: pointer;
+}
