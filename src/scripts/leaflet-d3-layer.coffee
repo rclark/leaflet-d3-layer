@@ -15,11 +15,24 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       # Maybe you can style individual features here based on properties?
             
     # Call the GeoJSON initilization function to utilize its perks
-    L.GeoJSON.prototype.initialize.call this, geojson, options
+    L.GeoJSON.prototype.initialize.call this, geojson, options    
     
-  updateData: () ->
-    svg = @_svg
-    g = svg.select "g"
+  onAdd: (map) ->
+    # From Leaflet API docs:
+    # Should contain code that creates DOM elements for the overlay, adds 
+    #   them to map panes where they should belong and puts listeners on 
+    #   relevant map events. Called on map.addLayer(layer).
+    
+    # Put an SVG element into Leaflet's .leaflet-overlay-pane
+    overlayPane = root.map.getPanes().overlayPane
+    d3Selector = d3.select overlayPane
+    @_svg = svg = d3Selector.append "svg"
+    svg.attr "class", "leaflet-d3-layer"
+    svg.attr "id", @options.layerId
+    
+    # Put a group element within that
+    g = svg.append "g"
+    g.attr "class", "leaflet-zoom-hide leaflet-d3-group"
     
     # Use Leaflet to project from geographic to pixel coordinates
     project = (d3pnt) ->
@@ -61,36 +74,11 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       # Here is where we apparently "initialize the path data by setting the d attribute" (http://bost.ocks.org/mike/leaflet/)
       feature.attr "d", path
       
-      # Clear out any data that's not in the set any longer
-      data.exit().remove()          
-    
-    # Then call it to get things started
-    reset()
-    
-    return reset     
-    
-  onAdd: (map) ->
-    # From Leaflet API docs:
-    # Should contain code that creates DOM elements for the overlay, adds 
-    #   them to map panes where they should belong and puts listeners on 
-    #   relevant map events. Called on map.addLayer(layer).
-    
-    # Put an SVG element into Leaflet's .leaflet-overlay-pane
-    overlayPane = root.map.getPanes().overlayPane
-    d3Selector = d3.select overlayPane
-    @_svg = svg = d3Selector.append "svg"
-    svg.attr "class", "leaflet-d3-layer"
-    svg.attr "id", @options.layerId
-    
-    # Put a group element within that
-    g = svg.append "g"
-    g.attr "class", "leaflet-zoom-hide leaflet-d3-group"    
-    
-    # Update the data, if there is any
-    reset = @updateData() if @geojson?
-    
     # Bind that reset function to a Leaflet map event (resize svg whenever the map is moved)
     root.map.on "viewreset", reset
+    
+    # Then call it to get things started
+    reset() 
     
     # Bind the reset function to something in broader scope so it can later be unbound
     #   from the viewreset event
@@ -106,10 +94,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     
 L.GeoJSON.d3.async = L.GeoJSON.d3.extend
   initialize: (geojsonUrl, options) ->
-    @geojsonUrl = geojsonUrl
-    cleanUrl = geojsonUrl.replace /[^A-Za-z]/g, "-" 
-    L.GeoJSON.d3.prototype.initialize.call @, null, 
-      layerId: cleanUrl
+    @geojsonUrl = geojsonUrl  
     
   getData: (map) ->    
     # Find the map's bounding box
@@ -120,13 +105,11 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
     thisLayer = @
     d3.json url, (geojson) ->
       # Purge the DOM if we've already initialized
-      #L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map) if thisLayer._svg?
+      L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map) if thisLayer._svg?
       
       # Use parent functions to do put points back on the map
-      #L.GeoJSON.d3.prototype.initialize.call thisLayer, geojson, thisLayer.options
-      #L.GeoJSON.d3.prototype.onAdd.call thisLayer
-      thisLayer.geojson = geojson
-      thisLayer.updateData()
+      L.GeoJSON.d3.prototype.initialize.call thisLayer, geojson, thisLayer.options
+      L.GeoJSON.d3.prototype.onAdd.call thisLayer
       
   onAdd: (map) ->
     # Setup listener to make new requests when the view changes
@@ -135,9 +118,6 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
       L.GeoJSON.d3.async.prototype.getData.call thisLayer, e.target
     map.on "viewreset", newData
     
-    # Setup the DOM using the parent function
-    L.GeoJSON.d3.prototype.onAdd.call @, map
-    
     # Then go ahead and getData for the first time
     @getData map
     
@@ -145,4 +125,3 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
     L.GeoJSON.d3.prototype.onRemove.call @, map
     map.off "viewreset", @newData
     
-  # don't need to override this one == onRemove: (map) ->
