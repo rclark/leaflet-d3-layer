@@ -11,7 +11,6 @@ body {
 path {
   fill: #68a6e3;
   fill-opacity: 0.7;
-  stroke: #14406b;
   /* Colors for Geochron Points */
 
   /* Colors for Geologic Map */
@@ -187,6 +186,5 @@ path[styler="Xm"] {
 }
 path:hover {
   fill: #ff0000;
-  stroke: black;
   cursor: pointer;
 }

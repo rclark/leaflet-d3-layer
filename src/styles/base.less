@@ -14,7 +14,7 @@ body {
 path {
   fill: @pathFillColor;
   fill-opacity: 0.7;
-  stroke: darken(@pathFillColor, 40%);  
+    
   
   /* Colors for Geochron Points */
   &[styler="2387"] { fill: #E03A00; }
@@ -77,8 +77,7 @@ path {
   &[styler="Xm"] { fill: #B2B25F; }
   
   &:hover {
-    fill: @highlightColor;
-    stroke: black;
+    fill: @highlightColor;    
     cursor: pointer; 
   }
 }

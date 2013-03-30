@@ -13,3 +13,8 @@ logic is wrapped into an object that extends Leaflet's own GeoJSON layer, so its
     
 ## example application
 check out `/dist/index.html`
+
+## still working...
+- there is definitely a better way to handle adding / removing data from the map using (D3's update patterns)[http://bl.ocks.org/mbostock/3808218]
+- is this a good way to handle unique-value symbology?
+- probably "async" layer should be branded and focused for what it is: a connector to a Geoserver WFS, although it would work right now for any GeoJSON data service that accepts a bbox query paramter
