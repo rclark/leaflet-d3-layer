@@ -1,0 +1,19 @@
+html, body, #map {
+  height: 100%;
+  width: 100%;
+}
+
+@pathFillColor: #68A6E3;
+@highlightColor: #FAFA89;
+
+path {
+  fill: @pathFillColor;
+  fill-opacity: 0.7;
+  stroke: darken(@pathFillColor, 40%);
+  
+  &:hover {
+    fill: @highlightColor;
+    stroke: black;
+    cursor: pointer; 
+  }
+}
