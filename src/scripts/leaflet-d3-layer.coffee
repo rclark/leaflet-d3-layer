@@ -24,7 +24,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     #   relevant map events. Called on map.addLayer(layer).
     
     # Put an SVG element into Leaflet's .leaflet-overlay-pane
-    overlayPane = root.map.getPanes().overlayPane
+    overlayPane = map.getPanes().overlayPane
     d3Selector = d3.select overlayPane
     @_svg = svg = d3Selector.append "svg"
     svg.attr "class", "leaflet-d3-layer"
@@ -37,7 +37,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     # Use Leaflet to project from geographic to pixel coordinates
     project = (d3pnt) ->
       geoPnt = new L.LatLng d3pnt[1], d3pnt[0]
-      pixelPnt = root.map.latLngToLayerPoint geoPnt
+      pixelPnt = map.latLngToLayerPoint geoPnt
       return [ pixelPnt.x, pixelPnt.y ] 
     
     # Create a d3.geo.path (https://github.com/mbostock/d3/wiki/Geo-Paths#wiki-path)

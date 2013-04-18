@@ -14,7 +14,7 @@
     },
     onAdd: function(map) {
       var bounds, d3Selector, data, feature, g, overlayPane, path, paths, project, reset, styler, svg;
-      overlayPane = root.map.getPanes().overlayPane;
+      overlayPane = map.getPanes().overlayPane;
       d3Selector = d3.select(overlayPane);
       this._svg = svg = d3Selector.append("svg");
       svg.attr("class", "leaflet-d3-layer");
@@ -24,7 +24,7 @@
       project = function(d3pnt) {
         var geoPnt, pixelPnt;
         geoPnt = new L.LatLng(d3pnt[1], d3pnt[0]);
-        pixelPnt = root.map.latLngToLayerPoint(geoPnt);
+        pixelPnt = map.latLngToLayerPoint(geoPnt);
         return [pixelPnt.x, pixelPnt.y];
       };
       path = d3.geo.path().projection(project);
