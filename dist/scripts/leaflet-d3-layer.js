@@ -50,7 +50,7 @@
         g.attr("transform", "translate(" + (-bottomLeft[0] + bufferPixels) + "," + (-topRight[1] + bufferPixels) + ")");
         return feature.attr("d", path);
       };
-      root.map.on("viewreset", reset);
+      map.on("viewreset", reset);
       reset();
       return this.resetFunction = reset;
     },
@@ -77,7 +77,7 @@
           L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map);
         }
         thisLayer.geojson = geojson;
-        return L.GeoJSON.d3.prototype.onAdd.call(thisLayer);
+        return L.GeoJSON.d3.prototype.onAdd.call(thisLayer, map);
       });
     },
     onAdd: function(map) {

@@ -79,7 +79,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       feature.attr "d", path
       
     # Bind that reset function to a Leaflet map event (resize svg whenever the map is zoomed)
-    root.map.on "viewreset", reset    
+    map.on "viewreset", reset
     
     # Then call it to get things started
     reset() 
@@ -120,7 +120,7 @@ L.GeoJSON.d3.async = L.GeoJSON.d3.extend
       
       # Use parent functions to do put points back on the map
       thisLayer.geojson = geojson
-      L.GeoJSON.d3.prototype.onAdd.call thisLayer
+      L.GeoJSON.d3.prototype.onAdd.call thisLayer, map
       
   onAdd: (map) ->
     # Setup listener to make new requests when the view changes
