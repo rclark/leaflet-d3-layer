@@ -17,6 +17,9 @@
       var bounds, feature, g, join, path, paths, project, reset, styler, svg;
       g = this._g;
       svg = this._svg;
+      if (this.geojson.type === "Topology") {
+        this.geojson = root.topojson.feature(this.geojson, this.geojson.objects.features);
+      }
       paths = g.selectAll("path");
       join = paths.data(this.geojson.features, function(d) {
         return d.id;

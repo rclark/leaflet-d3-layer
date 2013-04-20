@@ -15,12 +15,20 @@ zoom = 11
 # Get some GeoJSON
 geochronUrl = "http://services.usgin.org/geoserver/ows?service=wfs&version=1.0.0&request=GetFeature&typename=azgs:azgeochron&outputformat=json"
 polysUrl = "http://services.usgin.org/geoserver/ows?service=wfs&version=1.0.0&request=GetFeature&typename=ncgmp:mapunitpolys&outputformat=json"
+topoUrl = "http://data.usgin.org/topojson/geoserver/arizona/azgs:mapunitpolys?format=topojson"
 
 '''
 Use the asynchronous bbox-based layer
 '''
 app.polys = layer = new L.GeoJSON.d3.async polysUrl,
   styler: "mapunit"
+@map.addLayer layer
+
+'''
+Use the asynchronous bbox-based layer with TopoJSON
+'''
+app.topopolys = layer = new L.GeoJSON.d3.async topoUrl,
+   styler: "mapunit"
 @map.addLayer layer
 
 '''

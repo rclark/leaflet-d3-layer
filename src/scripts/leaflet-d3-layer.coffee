@@ -2,7 +2,7 @@ root = @
 
 L.GeoJSON.d3 = L.GeoJSON.extend
   initialize: (geojson, options) ->
-    @geojson = geojson # This needs to be a FeatureCollection
+    @geojson = geojson  # This will fail if you don't pass a FeatureCollection
     # unlike L.GeoJSON layer, this won't work unless GeoJSON is passed up-front
     
     # Make sure there's an options object
@@ -21,6 +21,11 @@ L.GeoJSON.d3 = L.GeoJSON.extend
   updateData: (map) ->
     g = @_g
     svg = @_svg
+
+    # Check for TopoJSON
+    if @geojson.type is "Topology"
+      # Convert to GeoJSON
+      @geojson = root.topojson.feature @geojson, @geojson.objects.features
 
     # Create path elements for each feature using D3's data join (http://bost.ocks.org/mike/join/)
     #   path elements are empty, will later be initialized by adding the d attribute
