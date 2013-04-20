@@ -8,19 +8,27 @@
     initialize: function(geojson, options) {
       this.geojson = geojson;
       options = options || {};
-      options.layerId = options.layerId || ("leaflet-d3-layer-" + geojson.features.length);
+      options.layerId = options.layerId || ("leaflet-d3-layer-" + (Math.floor(Math.random() * 101)));
       options.onEachFeature = function(geojson, layer) {};
-      return L.GeoJSON.prototype.initialize.call(this, geojson, options);
+      L.setOptions(this, options);
+      return this._layers = {};
     },
-    onAdd: function(map) {
-      var bounds, d3Selector, data, feature, g, overlayPane, path, paths, project, reset, styler, svg;
-      overlayPane = map.getPanes().overlayPane;
-      d3Selector = d3.select(overlayPane);
-      this._svg = svg = d3Selector.append("svg");
-      svg.attr("class", "leaflet-d3-layer");
-      svg.attr("id", this.options.layerId);
-      g = svg.append("g");
-      g.attr("class", "leaflet-zoom-hide leaflet-d3-group");
+    updateData: function(map) {
+      var bounds, feature, g, join, path, paths, project, reset, styler, svg;
+      g = this._g;
+      svg = this._svg;
+      paths = g.selectAll("path");
+      join = paths.data(this.geojson.features, function(d) {
+        return d.id;
+      });
+      feature = join.enter().append("path");
+      join.exit().remove();
+      if (this.options.styler != null) {
+        styler = this.options.styler;
+        feature.attr("styler", function(d) {
+          return d.properties[styler];
+        });
+      }
       project = function(d3pnt) {
         var geoPnt, pixelPnt;
         geoPnt = new L.LatLng(d3pnt[1], d3pnt[0]);
@@ -29,15 +37,6 @@
       };
       path = d3.geo.path().projection(project);
       bounds = d3.geo.bounds(this.geojson);
-      paths = g.selectAll("path");
-      data = paths.data(this.geojson.features);
-      feature = data.enter().append("path");
-      if (this.options.styler != null) {
-        styler = this.options.styler;
-        feature.attr("styler", function(d) {
-          return d.properties[styler];
-        });
-      }
       reset = function() {
         var bottomLeft, bufferPixels, topRight;
         bufferPixels = 15;
@@ -53,6 +52,17 @@
       map.on("viewreset", reset);
       reset();
       return this.resetFunction = reset;
+    },
+    onAdd: function(map) {
+      var d3Selector, g, overlayPane, svg;
+      overlayPane = map.getPanes().overlayPane;
+      d3Selector = d3.select(overlayPane);
+      this._svg = svg = d3Selector.append("svg");
+      svg.attr("class", "leaflet-d3-layer");
+      svg.attr("id", this.options.layerId);
+      this._g = g = svg.append("g");
+      g.attr("class", "leaflet-zoom-hide leaflet-d3-group");
+      return this.updateData(map);
     },
     onRemove: function(map) {
       this._svg.remove();
@@ -73,11 +83,12 @@
       url = "" + this.geojsonUrl + "&bbox=" + mapBounds;
       thisLayer = this;
       return d3.json(url, function(geojson) {
-        if (thisLayer._svg != null) {
-          L.GeoJSON.d3.prototype.onRemove.call(thisLayer, map);
-        }
         thisLayer.geojson = geojson;
-        return L.GeoJSON.d3.prototype.onAdd.call(thisLayer, map);
+        if (thisLayer._svg != null) {
+          return L.GeoJSON.d3.prototype.updateData.call(thisLayer, map);
+        } else {
+          return L.GeoJSON.d3.prototype.onAdd.call(thisLayer, map);
+        }
       });
     },
     onAdd: function(map) {

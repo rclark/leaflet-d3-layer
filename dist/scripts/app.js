@@ -4,13 +4,15 @@
 
   root = this;
 
+  root.app = {};
+
   someUrl = "http://a.tiles.mapbox.com/v3/mapbox.world-bright/{z}/{x}/{y}.png";
 
   layer = new L.TileLayer(someUrl);
 
   center = new L.LatLng(33.610044573695625, -111.50024414062501);
 
-  zoom = 9;
+  zoom = 11;
 
   this.map = new L.Map("map", {
     center: center,
@@ -24,7 +26,7 @@
 
   'Use the asynchronous bbox-based layer';
 
-  layer = new L.GeoJSON.d3.async(polysUrl, {
+  app.polys = layer = new L.GeoJSON.d3.async(polysUrl, {
     styler: "mapunit"
   });
 
@@ -34,7 +36,7 @@
 
   d3.json(geochronUrl, function(geojson) {
     var syncLayer;
-    syncLayer = new L.GeoJSON.d3(geojson, {
+    app.points = syncLayer = new L.GeoJSON.d3(geojson, {
       styler: "cartoobjid"
     });
     return root.map.addLayer(syncLayer);
