@@ -3,14 +3,37 @@ utilizes [Mike Bostock's excellent instructions](http://bost.ocks.org/mike/leafl
 
 logic is wrapped into an object that extends Leaflet's own GeoJSON layer, so its easy to add to a map using Leaflet's usual pattern:
 
-    var d3Layer = new L.GeoJSON.d3({...insert geojson here...});
+    var d3Layer = new L.GeoJSON.d3({...insert geojson here...}, options);
     var map = new L.Map("map").addLayer(d3Layer);
     
 **L.GeoJSON.d3.async** allows you to create a layer that references a geojson data service, such as a WFS provided by Geoserver.
 
     var asyncD3Layer = new L.GeoJSON.d3.async("http:/url/for/geoserver/wfs");
     var map = new L.Map("map").addLayer(asyncD3Layer)
-    
+
+#### options
+- `idFunction` - If your GeoJSON data has several features you need a unique identifier for each one. By default `leaflet-d3-layer` will look for an `id` field at the root of your feature. Use this option if your features have some other unique identifier.
+
+Example: your feature has an `identifier` field in the properties member.
+
+    geoJson = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [125.6, 10.1]
+      },
+      "properties": {
+        "name": "Dinagat Islands",
+        "identifier": "point-dinagat"
+      }
+    }
+
+You would then use the `idFunction` option like so:
+
+    var d3Layer = new L.GeoJSON.d3(geoJson, {
+      idFunction: function(d) { return d.properties.identifier; }
+    });
+
 ## example application
 check out `/dist/index.html`
 

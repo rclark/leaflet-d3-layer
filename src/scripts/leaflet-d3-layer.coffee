@@ -7,7 +7,12 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     
     # Make sure there's an options object
     options = options or {}
-    
+
+    # Allow user to specify field in GeoJSON feature to use as unique id
+    root.idFunction = options.idFunction or (d) ->
+      # This function returns a feature's unique ID
+      return d.id
+
     # set a layerId
     options.layerId = options.layerId or "leaflet-d3-layer-#{Math.floor(Math.random()*101)}"
     options.onEachFeature = (geojson, layer) ->
@@ -33,9 +38,7 @@ L.GeoJSON.d3 = L.GeoJSON.extend
     paths = g.selectAll "path"
 
     # Do the D3-style "Data-Join"
-    join = paths.data @geojson.features, (d) ->
-      # This function returns a feature's unique ID
-      return d.id
+    join = paths.data @geojson.features, root.idFunction
 
     # Add path elements for any new features
     feature = join.enter().append "path"
