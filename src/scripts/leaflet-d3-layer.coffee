@@ -13,6 +13,11 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       # This function returns a feature's unique ID
       return d.id
 
+    # d3 classed, attr, and 'on' listener options for paths
+    root.classed = options.classed or {};
+    root.attr = options.attr or {};
+    root.on = options.on or {};
+
     # set a layerId
     options.layerId = options.layerId or "leaflet-d3-layer-#{Math.floor(Math.random()*101)}"
     options.onEachFeature = (geojson, layer) ->
@@ -51,6 +56,16 @@ L.GeoJSON.d3 = L.GeoJSON.extend
       styler = @options.styler
       feature.attr "styler", (d) ->
         return d.properties[styler]
+
+    # Apply d3 classed, attr, and 'on' listeners to paths
+    for cls of root.classed
+      feature.classed cls, root.classed[cls]
+
+    for attr of root.attr
+      feature.attr attr, root.attr[attr]
+
+    for listener of root.on
+      feature.on listener, root.on[listener]
 
     # Use Leaflet to project from geographic to pixel coordinates
     project = (d3pnt) ->

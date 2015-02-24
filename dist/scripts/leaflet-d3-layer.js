@@ -11,13 +11,16 @@
       root.idFunction = options.idFunction || function(d) {
         return d.id;
       };
+      root.classed = options.classed || {};
+      root.attr = options.attr || {};
+      root.on = options.on || {};
       options.layerId = options.layerId || ("leaflet-d3-layer-" + (Math.floor(Math.random() * 101)));
       options.onEachFeature = function(geojson, layer) {};
       L.setOptions(this, options);
       return this._layers = {};
     },
     updateData: function(map) {
-      var bounds, feature, g, join, path, paths, project, reset, styler, svg;
+      var attr, bounds, cls, feature, g, join, listener, path, paths, project, reset, styler, svg;
       g = this._g;
       svg = this._svg;
       if (this.geojson.type === "Topology") {
@@ -32,6 +35,15 @@
         feature.attr("styler", function(d) {
           return d.properties[styler];
         });
+      }
+      for (cls in root.classed) {
+        feature.classed(cls, root.classed[cls]);
+      }
+      for (attr in root.attr) {
+        feature.attr(attr, root.attr[attr]);
+      }
+      for (listener in root.on) {
+        feature.on(listener, root.on[listener]);
       }
       project = function(d3pnt) {
         var geoPnt, pixelPnt;
